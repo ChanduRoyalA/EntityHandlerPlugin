@@ -28,7 +28,7 @@ public class EntityClassGen implements EntityClassGenIfc {
     @Override
     public String generateEntityDetails() throws IOException {
         String basePath = project.getBasePath();
-        String path = basePath + "/src/java/"+projectFolderStructure+"/entity";
+        String path = basePath + "/src/main/java/"+projectFolderStructure+"/entity";
 
         File directory = new File(path);
         if (!directory.exists() && !directory.mkdirs()) {
@@ -116,7 +116,7 @@ public class EntityClassGen implements EntityClassGenIfc {
     @Override
     public void generatePackageAndImports(FileWriter writer) throws IOException {
         String template = """
-                package %s;
+                package %s.entity;
                 
                 import jakarta.persistence.*;
 

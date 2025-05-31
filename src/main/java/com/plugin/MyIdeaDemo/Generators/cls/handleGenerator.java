@@ -33,10 +33,11 @@ public class handleGenerator{
     }
 
     private void handleEntityGen() throws IOException{
-        EntityClassGen entityClassGen = new EntityClassGen(this.project,this.tableName,this.columns,this.projectFolderStructure);
+        EntityClassGen entityClassGen = new EntityClassGen(project,tableName,columns,projectFolderStructure);
         String entityClassName = entityClassGen.generateEntityDetails();
-        EntityJpaRepoGen entityJpaRepoGen = new EntityJpaRepoGen(this.project,entityClassName,this.primaryKeyDataType,this.projectFolderStructure);
+        EntityJpaRepoGen entityJpaRepoGen = new EntityJpaRepoGen(project,entityClassName,primaryKeyDataType,projectFolderStructure);
         String entityJpaRepoName = entityJpaRepoGen.generateJpaRepoInterface();
-
+        EntityServiceGen entityServiceGen  = new EntityServiceGen(project,entityJpaRepoName,entityClassName,projectFolderStructure,primaryKeyDataType);
+        entityServiceGen.generateJpaRepoInterface();
     }
 }

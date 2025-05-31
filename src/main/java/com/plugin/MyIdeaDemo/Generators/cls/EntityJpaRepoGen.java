@@ -27,7 +27,7 @@ public class EntityJpaRepoGen implements EntityJpaRepoGenIfc {
     @Override
     public String generateJpaRepoInterface() throws IOException {
         String basePath = project.getBasePath();
-        String path = basePath + "/src/java/"+projectFolderStructure+"/repository";
+        String path = basePath + "/src/main/java/"+projectFolderStructure+"/repository";
         File directory = new File(path);
         if (!directory.exists() && !directory.mkdirs()) {
             throw new IOException("Failed to create directory: " + path);
@@ -59,14 +59,14 @@ public class EntityJpaRepoGen implements EntityJpaRepoGenIfc {
     public void generateJpaRepo(FileWriter writer) throws IOException {
         String interfaceName = entityClassName+"JpaRepository";
         String classTemplate = """
-                package %s;
+                package %s.repository;
                 
-                import java.entity.%s;
+                import %s.entity.%s;
                 import org.springframework.data.jpa.repository.JpaRepository;
                 
                 public interface %s extends JpaRepository<%s,%s> {
                 }
-                """.formatted(projectFolderStructure,entityClassName,interfaceName,entityClassName,primaryKeyDataType);
+                """.formatted(projectFolderStructure,projectFolderStructure,entityClassName,interfaceName,entityClassName,primaryKeyDataType);
         writer.write(classTemplate);
         writer.close();
     }

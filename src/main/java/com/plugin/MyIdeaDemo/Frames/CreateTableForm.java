@@ -84,7 +84,8 @@ public class CreateTableForm extends JFrame {
 
         generateButton.addActionListener((ActionEvent e) -> {
             String tableName = tableNameField.getText();
-            String projectFolderStructure = (projectFolderField.getText()).replace('.','/');
+            String projectFolderStructure = (projectFolderField.getText());
+            projectFolderStructure.replace('.','/');
 
 
             if (tableName.isBlank() || columns.isEmpty()) {
