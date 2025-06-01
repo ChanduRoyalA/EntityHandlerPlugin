@@ -68,6 +68,8 @@ public class EntityServiceGen implements EntityServiceGenIfc {
                 import %s.repository.%s;
                 import %s.entity.%s;
                 
+                
+                @Service
                 public class %s{
                 
                     @Autowired
