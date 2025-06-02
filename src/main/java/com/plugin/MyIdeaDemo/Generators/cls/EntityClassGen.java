@@ -66,11 +66,11 @@ public class EntityClassGen implements EntityClassGenIfc {
                 
                 public class %s {
                 
-                public %s(){
-                  /*
-                   Default Constructor
-                  */
-                }
+                    public %s(){
+                        /*
+                            Default Constructor
+                        */
+                    }
                 
                 """.formatted(entityClassName,entityClassName);
         writer.write(classTemplate);

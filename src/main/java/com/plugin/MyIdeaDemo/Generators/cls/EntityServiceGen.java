@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class EntityServiceGen implements EntityServiceGenIfc {
 
-    private final String entityJpaRepoName ;
+    private final String entityJpaRepoName;
     private final String projectFolderStructure;
     private final Project project;
     private final String entityClassName;
@@ -23,13 +23,13 @@ public class EntityServiceGen implements EntityServiceGenIfc {
         this.projectFolderStructure = projectFolderStructure;
         this.project = project;
         this.entityClassName = entityClassName;
-        this.JpaRepoInstanceName = entityJpaRepoName.substring(0,1).toLowerCase()+entityJpaRepoName.substring(1);
+        this.JpaRepoInstanceName = entityJpaRepoName.substring(0, 1).toLowerCase() + entityJpaRepoName.substring(1);
         this.primaryKeyDataType = primaryKeyDataType;
     }
 
     public String generateJpaRepoInterface() throws IOException {
         String basePath = project.getBasePath();
-        String path = projectFolderStructure+"/service";
+        String path = projectFolderStructure + "/service";
         File directory = new File(path);
         if (!directory.exists() && !directory.mkdirs()) {
             throw new IOException("Failed to create directory: " + path);
@@ -54,41 +54,41 @@ public class EntityServiceGen implements EntityServiceGenIfc {
         if (vDir != null) {
             vDir.refresh(true, true);
         }
-        return entityClassName+"JpaService";
+        return entityClassName + "JpaService";
     }
 
     public void generateJpaService(FileWriter writer) throws IOException {
-        String className = entityClassName+"JpaService";
+        String className = entityClassName + "JpaService";
 
         StringBuilder packageName = new StringBuilder("");
         String[] folderArray = projectFolderStructure.split("/");
         boolean isJavaPassed = false;
-        for(int i=0;i<folderArray.length;i++){
-            if(isJavaPassed){
+        for (int i = 0; i < folderArray.length; i++) {
+            if (isJavaPassed) {
                 packageName.append(folderArray[i]).append(".");
             }
-            if(folderArray[i].equalsIgnoreCase("java")){
+            if (folderArray[i].equalsIgnoreCase("java")) {
                 isJavaPassed = true;
             }
         }
-        
+
         String classTemplate = """
                 package %sservice;
-                
+                                
                 import org.springframework.beans.factory.annotation.Autowired;
                 import org.springframework.stereotype.Service;
                 import %srepository.%s;
                 import %sentity.%s;
-                
-                
+                                
+                                
                 @Service
                 public class %s{
-                
+                                
                     @Autowired
                     private %s %s;
-                
-                
-                """.formatted(packageName.toString(),packageName.toString(),entityJpaRepoName,packageName.toString(),entityClassName,className,entityJpaRepoName,JpaRepoInstanceName);
+                                
+                                
+                """.formatted(packageName.toString(), packageName.toString(), entityJpaRepoName, packageName.toString(), entityClassName, className, entityJpaRepoName, JpaRepoInstanceName);
         writer.write(classTemplate);
         generateBasicServiceOperations(writer);
         writer.write("}");
@@ -105,9 +105,9 @@ public class EntityServiceGen implements EntityServiceGenIfc {
                         %s fetchObj = %s.findById(primaryKey).get();
                         return fetchObj;
                     }
-                
-                
-                """.formatted(entityClassName,entityClassName,entityClassName,entityClassName,primaryKeyDataType,entityClassName,JpaRepoInstanceName);
+
+
+                """.formatted(entityClassName, entityClassName, entityClassName, entityClassName, primaryKeyDataType, entityClassName, JpaRepoInstanceName);
 
         String addEntityServiceTemplate = """
                     /*
@@ -118,35 +118,36 @@ public class EntityServiceGen implements EntityServiceGenIfc {
                          %s addedObj = %s.save(newObj);
                          return addedObj;
                     }
-                
-                
-                """.formatted(entityClassName,entityClassName,entityClassName,entityClassName,entityClassName,entityClassName,JpaRepoInstanceName);
+
+
+                """.formatted(entityClassName, entityClassName, entityClassName, entityClassName, entityClassName, entityClassName, JpaRepoInstanceName);
 
         String updateEntityServiceTemplate = """
-                    /*
-                        update the %s's instance
-                        returns -> the updated Instance of %s
-               
-                    public %s update%s(%s newObj) {
-                         %s addedObj = %s.save(newObj);
-                         return addedObj;
-                    }
-                     the above method is not built yet
-                    */
-               
-              
-               """.formatted(entityClassName,entityClassName,entityClassName,entityClassName,entityClassName,entityClassName,JpaRepoInstanceName);
+                     /*
+                         update the %s's instance
+                         returns -> the updated Instance of %s
+
+                     public %s update%s(%s newObj) {
+                          %s addedObj = %s.save(newObj);
+                          return addedObj;
+                     }
+                      the above method is not built yet
+
+                     */
+
+
+                """.formatted(entityClassName, entityClassName, entityClassName, entityClassName, entityClassName, entityClassName, JpaRepoInstanceName);
 
         String deleteEntityServiceTemplate = """
-                    /*
-                        delete the %s's instance
-                    */
-                    public void delete%s(%s primaryKey) {
-                          %s.deleteById(primaryKey);
-                    }
-               
-               
-               """.formatted(entityClassName,entityClassName,primaryKeyDataType,JpaRepoInstanceName);
+                     /*
+                         delete the %s's instance
+                     */
+                     public void delete%s(%s primaryKey) {
+                           %s.deleteById(primaryKey);
+                     }
+
+
+                """.formatted(entityClassName, entityClassName, primaryKeyDataType, JpaRepoInstanceName);
         writer.write(getEntityServiceTemplate);
         writer.write(addEntityServiceTemplate);
         writer.write(updateEntityServiceTemplate);
