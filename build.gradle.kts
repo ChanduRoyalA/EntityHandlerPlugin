@@ -15,7 +15,7 @@ intellij {
     version.set("2023.2.6")
     type.set("IC") // IntelliJ Community Edition
 
-    plugins.set(listOf(/* Add optional dependencies here, like "java", "Kotlin", etc. */))
+    plugins.set(listOf("java", "Kotlin"))
 }
 
 java {
