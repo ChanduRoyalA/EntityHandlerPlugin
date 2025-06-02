@@ -28,7 +28,7 @@ public class EntityClassGen implements EntityClassGenIfc {
     @Override
     public String generateEntityDetails() throws IOException {
         String basePath = project.getBasePath();
-        String path = basePath + "/src/main/java/"+projectFolderStructure+"/entity";
+        String path = projectFolderStructure + "/entity";
 
         File directory = new File(path);
         if (!directory.exists() && !directory.mkdirs()) {
@@ -115,14 +115,27 @@ public class EntityClassGen implements EntityClassGenIfc {
 
     @Override
     public void generatePackageAndImports(FileWriter writer) throws IOException {
+        StringBuilder packageName = new StringBuilder("");
+        String[] folderArray = projectFolderStructure.split("/");
+        boolean isJavaPassed = false;
+        for(int i=0;i<folderArray.length;i++){
+            if(isJavaPassed){
+                packageName.append(folderArray[i]).append(".");
+            }
+            if(folderArray[i].equalsIgnoreCase("java")){
+                isJavaPassed = true;
+            }
+        }
+
+
         String template = """
-                package %s.entity;
+                package %sentity;
                 
                 import jakarta.persistence.*;
 
                 @Entity
                 @Table(name = "%s")
-                """.formatted(projectFolderStructure,tableName);
+                """.formatted(packageName.toString(),tableName);
         writer.write(template);
     }
 

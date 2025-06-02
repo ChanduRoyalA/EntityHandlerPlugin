@@ -18,7 +18,7 @@ public class CreateTableForm extends JFrame {
     private final DefaultListModel<String> columnListModel = new DefaultListModel<>();
     private final HashMap<String, String> columns = new HashMap<>();
 
-    public CreateTableForm(Project project) {
+    public CreateTableForm(Project project,String projectfolderPath) {
         setTitle("Create Entity Table");
         setSize(600, 600);
         setLocationRelativeTo(null); // Center the window
@@ -84,8 +84,6 @@ public class CreateTableForm extends JFrame {
 
         generateButton.addActionListener((ActionEvent e) -> {
             String tableName = tableNameField.getText();
-            String projectFolderStructure = (projectFolderField.getText());
-            projectFolderStructure.replace('.','/');
 
 
             if (tableName.isBlank() || columns.isEmpty()) {
@@ -94,7 +92,7 @@ public class CreateTableForm extends JFrame {
             }
 
             try {
-                handleGenerator generator = new handleGenerator(project, tableName, columns,projectFolderStructure);
+                handleGenerator generator = new handleGenerator(project, tableName, columns,projectfolderPath);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

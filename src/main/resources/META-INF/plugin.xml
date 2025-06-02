@@ -29,7 +29,8 @@
     </extensions>
     <actions>
         <group id="MyIdeaDemo.HelloAction" text="Entity Handler" description="My Plugin">
-            <add-to-group group-id="MainMenu" anchor="last"/>
+<!--            <add-to-group group-id="MainMenu" anchor="last"/>-->
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last" />
             <action class="com.plugin.MyIdeaDemo.HelloAction" id="MyIdeaDemo.Actions.HelloAction" text="Generate Entity"/>
         </group>
     </actions>

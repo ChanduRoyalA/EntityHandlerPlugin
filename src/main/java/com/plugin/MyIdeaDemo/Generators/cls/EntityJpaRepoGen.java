@@ -27,7 +27,7 @@ public class EntityJpaRepoGen implements EntityJpaRepoGenIfc {
     @Override
     public String generateJpaRepoInterface() throws IOException {
         String basePath = project.getBasePath();
-        String path = basePath + "/src/main/java/"+projectFolderStructure+"/repository";
+        String path = projectFolderStructure + "/repository";
         File directory = new File(path);
         if (!directory.exists() && !directory.mkdirs()) {
             throw new IOException("Failed to create directory: " + path);
@@ -57,16 +57,29 @@ public class EntityJpaRepoGen implements EntityJpaRepoGenIfc {
 
     @Override
     public void generateJpaRepo(FileWriter writer) throws IOException {
+        StringBuilder packageName = new StringBuilder("");
+        String[] folderArray = projectFolderStructure.split("/");
+        boolean isJavaPassed = false;
+        for(int i=0;i<folderArray.length;i++){
+            if(isJavaPassed){
+                packageName.append(folderArray[i]).append(".");
+            }
+            if(folderArray[i].equalsIgnoreCase("java")){
+                isJavaPassed = true;
+            }
+        }
+
         String interfaceName = entityClassName+"JpaRepository";
+
         String classTemplate = """
-                package %s.repository;
+                package %srepository;
                 
-                import %s.entity.%s;
+                import %sentity.%s;
                 import org.springframework.data.jpa.repository.JpaRepository;
                 
                 public interface %s extends JpaRepository<%s,%s> {
                 }
-                """.formatted(projectFolderStructure,projectFolderStructure,entityClassName,interfaceName,entityClassName,primaryKeyDataType);
+                """.formatted(packageName.toString(),packageName.toString(),entityClassName,interfaceName,entityClassName,primaryKeyDataType);
         writer.write(classTemplate);
         writer.close();
     }

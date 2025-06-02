@@ -29,7 +29,7 @@ public class EntityServiceGen implements EntityServiceGenIfc {
 
     public String generateJpaRepoInterface() throws IOException {
         String basePath = project.getBasePath();
-        String path = basePath + "/src/main/java/"+projectFolderStructure+"/service";
+        String path = projectFolderStructure+"/service";
         File directory = new File(path);
         if (!directory.exists() && !directory.mkdirs()) {
             throw new IOException("Failed to create directory: " + path);
@@ -59,14 +59,26 @@ public class EntityServiceGen implements EntityServiceGenIfc {
 
     public void generateJpaService(FileWriter writer) throws IOException {
         String className = entityClassName+"JpaService";
+
+        StringBuilder packageName = new StringBuilder("");
+        String[] folderArray = projectFolderStructure.split("/");
+        boolean isJavaPassed = false;
+        for(int i=0;i<folderArray.length;i++){
+            if(isJavaPassed){
+                packageName.append(folderArray[i]).append(".");
+            }
+            if(folderArray[i].equalsIgnoreCase("java")){
+                isJavaPassed = true;
+            }
+        }
         
         String classTemplate = """
-                package %s.service;
+                package %sservice;
                 
                 import org.springframework.beans.factory.annotation.Autowired;
                 import org.springframework.stereotype.Service;
-                import %s.repository.%s;
-                import %s.entity.%s;
+                import %srepository.%s;
+                import %sentity.%s;
                 
                 
                 @Service
@@ -76,7 +88,7 @@ public class EntityServiceGen implements EntityServiceGenIfc {
                     private %s %s;
                 
                 
-                """.formatted(projectFolderStructure,projectFolderStructure,entityJpaRepoName,projectFolderStructure,entityClassName,className,entityJpaRepoName,JpaRepoInstanceName);
+                """.formatted(packageName.toString(),packageName.toString(),entityJpaRepoName,packageName.toString(),entityClassName,className,entityJpaRepoName,JpaRepoInstanceName);
         writer.write(classTemplate);
         generateBasicServiceOperations(writer);
         writer.write("}");
