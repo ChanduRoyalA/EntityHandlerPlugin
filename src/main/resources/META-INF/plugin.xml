@@ -5,17 +5,17 @@
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>DemoPlugin</name>
+    <name>Entity Generator</name>
     <version>1.0-SNAPSHOT</version>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="support@xyz.com" url="https://www.xyz.com">XYZ</vendor>
+    <vendor email="chandua.royal@gmail.com" url="">XYZ</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    My demo plugin Intellij created by XYZ company
+    Entity Handler Plugin For Spring boot for Developers
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
@@ -34,13 +34,4 @@
             <action class="com.plugin.MyIdeaDemo.HelloAction" id="MyIdeaDemo.Actions.HelloAction" text="Generate Entity"/>
         </group>
     </actions>
-
-<!--    <actions>-->
-<!--        <action id="spring.core.demoPlugin.HelloAction"-->
-<!--                class="com.plugin.MyIdeaDemo.HelloAction"-->
-<!--                text="Create Table"-->
-<!--                description="Opens the table creation dialog">-->
-<!--            <add-to-group group-id="MainMenu" anchor="last"/>-->
-<!--        </action>-->
-<!--    </actions>-->
 </idea-plugin>
