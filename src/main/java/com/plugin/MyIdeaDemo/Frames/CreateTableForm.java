@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class CreateTableForm extends JFrame {
-    private final JTextField projectFolderField = new JTextField(20);
     private final JTextField tableNameField = new JTextField(20);
     private final JTextField columnNameField = new JTextField(20);
     private final JComboBox<String> columnTypeComboBox = new JComboBox<>(new String[]{"Select","String", "Integer", "Boolean", "Date"});
@@ -29,11 +28,6 @@ public class CreateTableForm extends JFrame {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
 
-        // Project Folder Structure
-        JPanel projectPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        projectPanel.add(new JLabel("Project Folder Structure:"));
-        projectPanel.add(projectFolderField);
-        mainPanel.add(projectPanel);
 
         // Table name
         JPanel tablePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
